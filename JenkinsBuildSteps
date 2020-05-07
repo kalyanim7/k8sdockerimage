@@ -1,0 +1,35 @@
+ls -ltr
+sudo docker ps | grep  munireddy1/sampledockerimage01 | cut -d " " -f1
+if [ $? -eq 0 ]; then
+    sudo docker stop $(sudo docker ps | grep  munireddy1/sampledockerimage01 | cut -d " " -f1)
+else
+    echo "No Docker container is running"
+fi    
+#Build Image
+sudo docker build . -t munireddy1/sampledockerimage01
+sudo docker images
+#Run image
+sudo docker run -p 8000:8000 munireddy1/sampledockerimage01 &
+
+--------------------------------Modified steps -----------------------------------
+ls -ltr
+echo ${BUILD_NUMBER}
+sudo docker ps | grep  munireddy1/sampledockerimage01 | cut -d " " -f1
+#sudo docker ps | grep  munireddy1/sampledockerimage01 | cut -d " " -f1
+#if [ $? -eq 0 ]; then
+if [ -z $(sudo docker ps | grep  munireddy1/sampledockerimage01 | cut -d " " -f1)]; then
+    echo "No Docker container is running"
+    #sudo docker stop $(sudo docker ps | grep  munireddy1/sampledockerimage01 | cut -d " " -f1)
+else
+    sudo docker stop $(sudo docker ps | grep  munireddy1/sampledockerimage01 | cut -d " " -f1)
+    
+fi    
+#Build Image
+sudo docker build . -t munireddy1/sampledockerimage01
+#registry = "dockerhub/munireddy1"
+#registryCredential = ‘DockerID’
+#sudo docker login -u munireddy -p ${PASSWORD}
+#sudo docker push munireddy1/sampledockerimage01
+sudo docker images
+#Run image
+sudo docker run -p 8000:8000 munireddy1/sampledockerimage01 &
